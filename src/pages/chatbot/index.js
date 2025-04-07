@@ -53,8 +53,13 @@ const ChatBot = () => {
         <h3>ChatBot</h3>
          <MainContainer style={{ 
             width: '100vw', 
-            height: 400,
-            margin: 'auto' }}>
+            height: 360,
+            margin: 'auto',
+            position: 'fixed',
+            bottom: 0, 
+            left: 0,
+             right: 0 
+            }}>
             <ChatContainer>
                 <MessageList>
                     {messageList.map((msg, i)=>{
