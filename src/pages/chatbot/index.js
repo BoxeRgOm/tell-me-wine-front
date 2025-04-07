@@ -52,8 +52,8 @@ const ChatBot = () => {
     return (<>
         <h3>ChatBot</h3>
          <MainContainer style={{ 
-            width: 400, 
-            height: 600,
+            width: '100vw', 
+            height: 400,
             margin: 'auto' }}>
             <ChatContainer>
                 <MessageList>
