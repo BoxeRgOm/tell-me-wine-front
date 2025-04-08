@@ -13,9 +13,14 @@ import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import { api_url } from '../../modules/constants';
 
 
-const ChatBot = () => {
+const ChatBot = ({type}) => {
 
-    const [messageList, setMessageList] = useState([{ 
+    const [messageList, setMessageList] = useState([
+        { 
+            message: `Model : ${type}`,
+            direction: 'incoming',
+            position: 'first'},
+        { 
         message: '안녕하세요. Wine Chat Bot "Tell Me Wine." 입니다^^',
         direction: 'incoming',
         position: 'first'}])
@@ -33,7 +38,7 @@ const ChatBot = () => {
         ])
 
         try{
-            const response = await axios.post(`${api_url}/recommend`, {
+            const response = await axios.post(`${api_url}/${type}`, {
                 userInput: text
             })
             console.log(response)
