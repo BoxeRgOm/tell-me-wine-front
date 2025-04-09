@@ -13,10 +13,9 @@ import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import { api_url } from '../../modules/constants';
 
 
-const ChatBot = () => {
+const ChatBot = ({type='openai'}) => {
     
     const [loading, setLoading] = useState(false)
-    const [type, setType] = useState('openai') // 'openai' || 'deepseek'
 
     const [messageList, setMessageList] = useState([
         { message: '안녕하세요. Wine Chat Bot "Tell Me Wine." 입니다^^',
@@ -81,7 +80,7 @@ const ChatBot = () => {
     }
 
     return (<>
-        <h3>ChatBot</h3>
+        <h3>ChatBot {type === 'deepseek' && 'DeepSeek'}</h3>
         {/* <div>
             <button onClick={()=>{
                 if(type==='deepseek'){
@@ -107,7 +106,7 @@ const ChatBot = () => {
                                 key={i} />)
                     })}
             </MessageList>
-            <MessageInput placeholder="메세지 작성"
+            <MessageInput placeholder={loading ? "Loading..." : "Send a message..."}
                         disabled={loading}
                         onSend={(textContent)=>{
                             sendCommened(textContent)

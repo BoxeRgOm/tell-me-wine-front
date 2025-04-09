@@ -6,7 +6,8 @@ import {Routes, Route} from 'react-router-dom'
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<ChatBot/>}/>
+      <Route path="/" element={<ChatBot type={'openai'}/>}/>
+      <Route path="/deepseek" element={<ChatBot type={'deepseek'}/>}/>
       <Route path="/admin" element={<Admin/>}/>
       <Route path="/feedback" element={<FeedBack/>}/>
     </Routes>
