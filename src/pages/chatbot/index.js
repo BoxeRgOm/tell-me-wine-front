@@ -14,23 +14,22 @@ import { api_url } from '../../modules/constants';
 
 
 const ChatBot = () => {
+    
+    const [loading, setLoading] = useState(false)
     const [type, setType] = useState('openai') // 'openai' || 'deepseek'
 
     const [messageList, setMessageList] = useState([
         { message: '안녕하세요. Wine Chat Bot "Tell Me Wine." 입니다^^',
           direction: 'incoming',
-          position: 'first'},
-        { message: `AI Model : ${type}`,
-          direction: 'incoming',
-          position: 'normal'}])
+          position: 'first'}])
 
-    useEffect(()=>{
-        setMessageList([...messageList,
-            { message: `Change AI Model : ${type}`,
-              direction: 'incoming',
-              position: 'normal'}
-        ])
-    },[type, setType])
+    // useEffect(()=>{
+    //     setMessageList([...messageList,
+    //         { message: `Change AI Model : ${type}`,
+    //           direction: 'incoming',
+    //           position: 'normal'}
+    //     ])
+    // },[type, setType])
 
     const sendCommened = async (text) => {
 
@@ -45,8 +44,26 @@ const ChatBot = () => {
         ])
 
         try{
+            
+            setLoading(true)
+
+            const messages = messageList
+            .filter((msg)=>{
+                return msg.position !== "first"
+            })
+            .map((msg)=>{
+                return { 
+                    role: msg.direction === 'outgoing' ? "user" : "assistant", 
+                    content: msg.message }
+            });
+            
+            messages.push({ 
+                role: "user", 
+                content: text })
+            console.log(messages)
+
             const response = await axios.post(`${api_url}/${type}`, {
-                userInput: text
+                messages: messages
             })
             console.log(response)
             
@@ -58,12 +75,14 @@ const ChatBot = () => {
 
         }catch (error){
             console.error(error);
+        }finally{
+            setLoading(false)
         }
     }
 
     return (<>
         <h3>ChatBot</h3>
-        <div>
+        {/* <div>
             <button onClick={()=>{
                 if(type==='deepseek'){
                     setType('openai')
@@ -74,7 +93,7 @@ const ChatBot = () => {
                     setType('deepseek')
                 }
             }}>DeepSeek</button>
-        </div>
+        </div> */}
          <MainContainer style={{ 
                 width: '100vw', 
                 height: 360,
@@ -89,10 +108,11 @@ const ChatBot = () => {
                     })}
             </MessageList>
             <MessageInput placeholder="메세지 작성"
-                          onSend={(textContent)=>{
+                        disabled={loading}
+                        onSend={(textContent)=>{
                             sendCommened(textContent)
-                          }}
-                          />
+                        }}
+                    />
           </ChatContainer>
         </MainContainer>
     </>)
