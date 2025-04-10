@@ -38,12 +38,12 @@ const Admin = () => {
 
     const awakeServer = async () => {
 
-        console.log('awakeServer')
-
         try {
 
             const response = await axios.post(`${api_url}/awake`)
             console.log(response)
+
+            alert(response.data.message);
 
         } catch (error) {
             console.error(error);
@@ -52,12 +52,10 @@ const Admin = () => {
 
     const sleepServer = async () => {
 
-        console.log('sleepServer')
-
         try {
 
             const response = await axios.post(`${api_url}/sleep`)
-            console.log(response)
+            alert(response.data.message);
 
         } catch (error) {
             console.error(error);
